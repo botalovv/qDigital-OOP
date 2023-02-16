@@ -10,16 +10,15 @@ class Airplane {
     }
 
     takeoff() {
-        this.onAir = !this.onAir
-        this.landed = !this.landed
-        Airport.freePlaces += 1
+        this.onAir = true
+        this.landed = false
     }
 
     landing() {
-        this.onAir = !this.onAir
-        this.landed = !this.landed
-        Airport.freePlaces -= 1
+        this.onAir = false
+        this.landed = true
         this.fueled = false
+        this.readyToGo = false
     }
 }
 
@@ -31,36 +30,32 @@ class Mig extends Airplane {
     }
 
     attack() {
-        if (this.ammo > 0) {
+        if (this.ammo > 0 && this.onAir == true) {
             this.ammo -= 1
             this.damageDone += 100
-        } else alert("Необходимо пополнить боезапас")
+        } else if (this.onAir == false) {
+            alert("Нельзя стрелять в аэропорте")
+        }
+         else alert("Необходимо пополнить боезапас")
     }
 }
 
 
 const mig = new Mig("Mig", 1500);
 
-class Tu extends Airplane {
-}
+class Tu extends Airplane {}
 
 const tu154 = new Tu("tu-154", 950);
 
 class Airport {
-    mig = Mig;
-    tu154 = Tu;
-    constructor(mig, tu154) {
-        this.mig = mig 
-        this.tu154 = tu154
-        this.freePlaces = 0
+    constructor() {
+        this.freePlaces = 10
     }
 
     takePlane(plane) {
         if(this.freePlaces > 0) {
             this.freePlaces -= 1
-            plane.onAir = false
-            plane.landed = true
-            plane.fueled = false
+            plane.landing()
         }
         else if(this.freePlaces == 0) {
             alert("Аэропорт заполнен, необходимо освободить место")
@@ -69,20 +64,13 @@ class Airport {
     }
 
     takeoff(plane) {
-        if(this.freePlaces < 2 && plane.fueled) {
+        if(this.freePlaces < 10 && plane.readyToGo) {
             this.freePlaces += 1
-            plane.onAir = true
-            plane.landed = false
+            plane.takeoff()
         }
-
-        if(this.freePlaces == 2) {
-            alert("Самолётов не осталось")
+        else if (!plane.readyToGo) {
+            alert("Необходимо проверить самолёт перед взлетом");
         }
-
-        if (!plane.fueled) {
-            alert("Необходимо заправить самолёт")
-        }
-        
     }
 
     parking(plane) {
@@ -99,7 +87,10 @@ class Airport {
             plane.onParking = false
             plane.readyToGo = true
         }
-        else alert("Самолет в воздухе, сперва нужно приземлиться")
+        else if (!plane.landed) {
+            alert("Самолет в воздухе, сперва нужно приземлиться")
+        } 
+        else alert("Самолет необходимо заправить")
     }
 
     refuel(plane) {
