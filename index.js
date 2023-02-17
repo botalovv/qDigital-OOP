@@ -7,6 +7,7 @@ class Airplane {
         this.onParking = false
         this.readyToGo = true
         this.fueled = true
+        this.chassis = new Chassis()
     }
 
     takeoff() {
@@ -20,7 +21,28 @@ class Airplane {
         this.fueled = false
         this.readyToGo = false
     }
+
+    openChassis() {
+        this.chassis.openChassis()
+    }
+
+    closeChassis() {
+        this.chassis.closeChassis()
+    }
 }
+//       Композиция      //
+class Chassis {
+    constructor() {
+        isOpen = true
+    }
+    openChassis() {
+        this.isOpen = true
+    }
+    closeChassis() {
+        this.isOpen = false
+    }
+}
+
 
 class Mig extends Airplane {
     constructor(name, maxSpeed){
