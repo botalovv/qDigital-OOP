@@ -24,7 +24,7 @@ class Airplane {
 
 class Mig extends Airplane {
     constructor(name, maxSpeed){
-        super(name, maxSpeed)
+        super(name, maxSpeed);
         this.damageDone = 0
         this.ammo = 10
     }
@@ -34,9 +34,9 @@ class Mig extends Airplane {
             this.ammo -= 1
             this.damageDone += 100
         } else if (this.onAir == false) {
-            alert("Нельзя стрелять в аэропорте")
+            alert("Нельзя стрелять в аэропорте");
         }
-         else alert("Необходимо пополнить боезапас")
+         else alert("Необходимо пополнить боезапас");
     }
 }
 
@@ -51,6 +51,8 @@ class Airport {
     constructor() {
         this.freePlaces = 10
     }
+    
+    //   Агрегация   //
 
     takePlane(plane) {
         if(this.freePlaces > 0) {
@@ -58,7 +60,7 @@ class Airport {
             plane.landing()
         }
         else if(this.freePlaces == 0) {
-            alert("Аэропорт заполнен, необходимо освободить место")
+            alert("Аэропорт заполнен, необходимо освободить место");
         }
         
     }
@@ -78,7 +80,7 @@ class Airport {
             plane.onParking = true
             plane.readyToGo = false 
         }
-        else alert("Самолет в воздухе, сперва нужно приземлиться")
+        else alert("Самолет в воздухе, сперва нужно приземлиться");
       
     }
 
@@ -88,22 +90,22 @@ class Airport {
             plane.readyToGo = true
         }
         else if (!plane.landed) {
-            alert("Самолет в воздухе, сперва нужно приземлиться")
+            alert("Самолет в воздухе, сперва нужно приземлиться");
         } 
-        else alert("Самолет необходимо заправить")
+        else alert("Самолет необходимо заправить");
     }
 
     refuel(plane) {
         if (!plane.fueled && plane.landed) {
             plane.fueled = true
-        } else alert("Самолёт не нуждается в дозаправке")
+        } else alert("Самолёт не нуждается в дозаправке");
     }
 
     reload(plane) {
         if (plane.ammo < 10 && plane == mig) {
             plane.ammo = 10
-        } else alert("Перезарядка не требуется")
+        } else alert("Перезарядка не требуется");
     }
 }
 
-const pulkovo = new Airport(mig, tu154)
+const pulkovo = new Airport();
